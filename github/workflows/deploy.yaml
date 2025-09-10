@@ -5,45 +5,20 @@ on:
     branches:
       - main
   workflow_dispatch:
+    inputs:
+      action:
+        description: "Terraform action to run (plan, apply, destroy)"
+        required: true
+        default: "plan"
+        type: choice
+        options:
+          - plan
+          - apply
+          - destroy
+      branch:
+        description: "Git branch to run workflow from"
+        required: false
+        default: "main"
 
 jobs:
-  terraform:
-    name: Deploy VM to GCP
-    runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
-      id-token: write
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      # Setup Terraform
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: 1.8.0
-
-      # Authenticate to Google Cloud
-      - name: Authenticate to GCP
-        uses: google-github-actions/auth@v2
-        with:
-          credentials_json: ${{ secrets.GCP_CREDENTIALS }}
-
-      - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v2
-        with:
-          project_id: disco-aegis-468009-g4
-
-      # Terraform Init
-      - name: Terraform Init
-        run: terraform init
-
-      # Terraform Plan
-      - name: Terraform Plan
-        run: terraform plan -input=false
-
-      # Terraform Apply
-      - name: Terraform Apply
-        run: terraform apply -auto-approve -input=false
+  terr
