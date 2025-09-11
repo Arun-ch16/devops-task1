@@ -9,7 +9,8 @@ terraform {
 }
 
 provider "google" {
-  project = "disco-aegis-468009-g4"
-  region  = "us-central1"
-  zone    = "us-central1-a"
+  credentials = file("${path.module}/service-account.json")
+  project     = "disco-aegis-468009-g4"
+  region      = "us-central1"
+  zone        = "us-central1-a"
 }
